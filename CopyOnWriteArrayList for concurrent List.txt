@@ -1,0 +1,30 @@
+1. CopyOnWriteArrayList
+The CopyOnWriteArrayList is a thread-safe variant of ArrayList that uses a copy-on-write mechanism. Whenever a modification (like adding or removing elements) is made to the list, a new copy of the internal array is created, and the changes are applied to that copy.
+
+Key Characteristics:
+1. Thread-safe for both read and write operations.
+2. Reading operations (like get(), size(), etc.) do not block and are very fast.
+3. Modifications (add(), remove()) are relatively slow because they involve copying the entire list.
+4. Ideal for scenarios where read operations vastly outnumber write operations.
+
+
+In the context of CopyOnWriteArrayList, the phrase "creates a new internal copy" refers to the way the list handles modifications (like adding, removing, or setting elements).
+
+Explanation:
+The CopyOnWriteArrayList uses a copy-on-write strategy, which means:
+
+When an element is added or removed, instead of modifying the existing array that backs the list (as in a regular ArrayList), it creates a new copy of the entire array with the modification applied.
+The new copy is then made the active array used by the list.
+This ensures that reader threads (threads that are accessing the list for reading) can continue to access the old version of the list without being blocked or affected by the changes happening in other threads.
+Why Does This Happen?
+This mechanism prevents issues related to concurrent modifications, where one thread could be modifying the list while another is reading it, potentially causing inconsistent or corrupt data. By using a new copy for every write operation:
+
+Read operations (such as get(), size(), etc.) never block or interfere with write operations because they always operate on a stable, immutable version of the list.
+Write operations are isolated to the new copy, ensuring that readers are never interrupted.
+
+
+-----------------
+The CopyOnWriteArrayList is designed for scenarios where read performance is crucial, and it's acceptable for temporary inconsistencies in data. If your application requires immediate consistency or you cannot tolerate readers seeing stale data, you'll need a different approach, like explicit synchronization or other concurrent collections that manage consistency more strictly.
+
+
+Exa

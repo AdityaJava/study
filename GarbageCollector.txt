@@ -1,0 +1,54 @@
+Generational Garbage Collection
+Java's heap is typically divided into three generations:
+
+Young Generation:
+Contains short-lived objects (e.g., temporary variables).
+Subdivided into:
+Eden Space: Where new objects are initially allocated.
+Survivor Spaces (S0 and S1): Hold objects that survive garbage collection in Eden.
+Uses a Minor GC process.
+
+Old (Tenured) Generation:
+Contains long-lived objects that have survived multiple GC cycles.
+Collected less frequently using Major GC.
+
+Metaspace:
+Stores class metadata, replacing the "PermGen" space in Java 8.
+
+
+--------------------------------
+
+Key Steps in GC Process
+Mark:
+ Identifies objects that are still in use (reachable objects).
+ Starts from GC roots (e.g., stack references, static fields, JNI references).
+
+Sweep:
+ Reclaims memory by removing unreachable objects.
+
+Compact (optional, depends on GC type):
+ Moves surviving objects to reduce fragmentation, improving memory utilization
+
+------------------------------------------
+
+3. Types of Garbage Collection
+Minor GC (Young Generation)
+ When triggered: When the Eden space fills up.
+Process:
+ GC checks for live objects in Eden and copies them to Survivor spaces.
+ Objects surviving multiple Minor GCs are promoted to the Old Generation.
+Impact: Short pause but frequent.
+
+Major GC (Old Generation)
+When triggered: When the Old Generation fills up.
+Process:
+ Checks and clears unreachable objects in the Old Generation.
+ May involve compaction to reduce fragmentation.
+Impact: Longer pause, less frequent.
+
+Full GC
+When triggered: Involves cleaning both Young and Old Generations.
+Process:
+ Stops all application threads (Stop-the-World event).
+Performs a complete cleanup and compaction if necessary.
+Impact: Long pause time; should be minimized.

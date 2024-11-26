@@ -1,0 +1,13 @@
+public class StringCreationDemo {
+    public static void main(String[] args) {
+        String s2 = new String("hello"); // "hello" added to SCP + one heap object
+    }
+}
+Memory Allocation After Execution:
+
+SCP:
+
+Contains one instance of "hello".
+Heap:
+
+Contains one separate String object with the value "hello".

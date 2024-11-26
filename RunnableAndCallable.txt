@@ -1,0 +1,41 @@
+Runnable
+Definition: A functional interface representing a task that can be executed by a thread.
+Key Features:
+1. Contains a single abstract method: void run().
+2. Does not return any result.
+3. Cannot throw checked exceptions.
+4. Usage: Use when a task does not need to return a value or throw checked exceptions.
+
+Example:
+
+Runnable task = () -> System.out.println("Runnable task executed");
+new Thread(task).start();
+
+-------------------------------------------------------
+Callable
+Definition: A functional interface introduced in Java 5, representing a task that returns a result and may throw exceptions.
+Key Features:
+1. Contains a single abstract method: T call().
+2. Returns a value of type T.
+3. Can throw checked exceptions.
+4. Usage: Use when a task needs to return a result or throw exceptions.
+Example:
+Callable<Integer> task = () -> {
+    return 42; // Task returns a value
+};
+Future<Integer> future = Executors.newSingleThreadExecutor().submit(task);
+System.out.println(future.get()); // Output: 42
+
+--------------------------------------------------------------------
+Key Difference
+1. Return Type:
+    Runnable → No return value (void).
+    Callable → Returns a value of type T.
+2. Exception Handling:
+    Runnable → Cannot throw checked exceptions.
+    Callable → Can throw checked exceptions.
+
+
+
+
+

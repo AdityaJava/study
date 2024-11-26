@@ -1,0 +1,29 @@
+Core Java
+1. Streams
+2. Pillars Of OOPS
+3. Polymorphism in Deep
+4. Static Method Hiding
+5. String Pool Literals
+6. Garbage Collection
+7. Latest Garbage Collector, Multithreaded Garbage Collector
+8. HashMap Internal Working, Use of equals(), and HashCode() methods
+9. LinkedHashMap, ConcurrentHashMap
+10. Which Datastructure is used by Set internally
+
+MultiThreading
+10. Runnable and Callable interfaces for Threads
+11. CompletableFuture
+
+Stream
+1. Parallel Streams
+2. Grouping with streams
+3. Filtering with streams
+4. Creating HashMap with Streams
+
+AWS----------
+1. services and features
+2. compute
+3. serverless
+4. RDS
+5. EC2
+6. lambda

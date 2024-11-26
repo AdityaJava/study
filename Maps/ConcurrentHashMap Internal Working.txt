@@ -1,0 +1,16 @@
+ConcurrentHashMap is a class in Java that implements the Map interface and is part of the java.util.concurrent package. It is designed to allow safe concurrent access and modification by multiple threads without causing synchronization problems.
+
+Key Features of ConcurrentHashMap:
+Thread-Safe: Unlike a regular HashMap, which is not thread-safe, ConcurrentHashMap allows concurrent read and write operations from multiple threads without causing data corruption. It ensures that threads can access the map without interfering with each other.
+
+Segmented Locking: ConcurrentHashMap works by partitioning the map into multiple segments (buckets). Each segment is independently locked, allowing threads to modify different segments concurrently. This reduces contention between threads compared to a global lock on the entire map.
+
+No Global Lock: While it internally uses locks, ConcurrentHashMap doesn’t require locking the entire map during read or write operations. For example, reading a value doesn't require locking the map, so multiple threads can perform reads concurrently.
+
+Atomic Operations: Methods such as putIfAbsent(), remove(), and replace() ensure atomicity in case of concurrent access, preventing data inconsistencies.
+
+Size and Iteration: ConcurrentHashMap does not provide a consistent size during iteration. The size may change while iterating over the map if other threads modify it. However, the iteration itself is thread-safe.
+
+Null Values: Unlike HashMap, ConcurrentHashMap does not allow null keys or values. This is to avoid ambiguity when handling nulls, especially in concurrent environments.
+
+Exa

@@ -1,0 +1,30 @@
+1. HashSet (Uses HashMap internally)
+In a HashSet, elements are stored based on their hash codes. The elements are unordered, meaning the insertion order is not preserved. A HashSet uses a HashMap internally to store the elements as keys.
+
+Illustration:
+vbnet
+Copy code
+HashSet (Internally uses HashMap)
+
++------------------------------------+
+| HashMap (key -> value)             |
+|------------------------------------|
+| Key: "A" -> Value: TRUE            |
+| Key: "B" -> Value: TRUE            |
+| Key: "C" -> Value: TRUE            |
+| Key: "D" -> Value: TRUE            |
++------------------------------------+
+
+
+Why is value true?
+
+In Java's HashSet, the HashMap is used internally to store elements. The reason for having a Value: TRUE (or some placeholder value) is purely for implementation convenience. Here's a more detailed explanation:
+
+Why is the value TRUE?
+Keys in a HashMap are used to represent the elements in the Set.
+A HashMap is designed to store key-value pairs. In the case of HashSet, the keys are the actual elements (e.g., "A", "B", etc.), and the values are not needed because HashSet doesn't care about them.
+So, rather than store null values or some complex object, the value is simply set to Boolean.TRUE (or any constant, such as Object or 1, etc.) as a placeholder to satisfy the HashMap's requirement for key-value pairs.
+
+
+The value doesn't impact the functionality of the Set, which only cares about the keys (i.e., the unique elements). This design allows HashSet to maintain efficient operations like checking for uniqueness, adding, and removing elements.
+

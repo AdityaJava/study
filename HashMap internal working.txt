@@ -1,0 +1,17 @@
+hashCode(): Determines the bucket where the entry is stored in the HashMap.
+equals(): Resolves collisions (when two keys have the same hash value) by comparing actual key equality.
+
+
+1. When a new key is inserted, HashMap first computes the hash code using hashCode() and places the entry in the appropriate bucket.
+2. If another key with the same hash code is inserted, HashMap uses equals() to check if the new key is the same as any key already in the bucket. If they are the same, it updates the value; if not, it adds the new entry to the bucket.
+
+Illustration:
+HashMap Structure:
+
+rust
+Copy code
+HashMap
+├── Bucket 0 -> [key1 -> value1, key2 -> value2]  (in case of collision)
+├── Bucket 1 -> [key3 -> value3]
+└── Bucket 2 -> [key4 -> value4]
+The order of the elements in the HashMap is not preserved.

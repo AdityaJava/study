@@ -1,0 +1,42 @@
+class SuperClass {
+    static void display() {
+        System.out.println("Static method in SuperClass");
+    }
+}
+
+class SubClass extends SuperClass {
+    static void display() {
+        System.out.println("Static method in SubClass");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        SuperClass superClass = new SubClass();
+        superClass.display(); // Calls SuperClass's static method
+
+        SubClass subClass = new SubClass();
+        subClass.display();   // Calls SubClass's static method
+    }
+}
+
+
+OUTPUT
+
+Static method in SuperClass
+Static method in Subclass
+
+
+Explanation:
+superClass.display():
+
+superClass is of type SuperClass.
+Static methods are resolved using the reference type (SuperClass), so SuperClass.display() is invoked.
+subClass.display():
+
+subClass is of type SubClass.
+The method SubClass.display() is invoked.
+Summary:
+Static method hiding is a compile-time mechanism.
+To avoid confusion, it's generally recommended not to use the same method signature for static methods in parent and child classes.
+
