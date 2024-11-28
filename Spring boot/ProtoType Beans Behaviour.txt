@@ -1,0 +1,70 @@
+3. 
+@Scope("prototype")
+AbcService{
+updateTemperature(){
+	//like update temp 20degree etc
+}
+}
+   
+XYZService{
+	@Autowired
+	AbcService abcService
+} 
+How will ABCService behave in XYZService as ABCService is prototype and XYZis singleton 
+
+In Spring Framework, when you annotate a bean with @Scope("prototype"), it indicates that a new instance of the bean is created each time it is requested. On the other hand, a singleton-scoped bean (which is the default scope) is created once and shared across the entire Spring context.
+
+In your scenario, AbcService is a prototype bean, and XYZService is a singleton bean. When you inject AbcService into XYZService, Spring handles the injection as follows:
+
+Prototype Bean (AbcService): A new instance of AbcService will be created every time it is requested. In this case, it will be created when XYZService is created, but it will not be reused by any other beans.
+
+Singleton Bean (XYZService): Since XYZService is a singleton, only one instance of XYZService is created during the application’s lifecycle, and it is shared across the entire Spring context.
+
+How Spring handles the injection:
+In a singleton-scoped bean (XYZService), if you inject a prototype-scoped bean (AbcService), Spring does not inject a new instance every time the singleton (XYZService) is used. By default, the prototype bean is injected only once when the singleton is created. This means that Spring will inject a single instance of AbcService into the singleton bean XYZService.
+
+However, this can be resolved by using one of the following approaches:
+
+1. Using @Lookup Annotation:
+You can use the @Lookup annotation in the singleton (XYZService) to tell Spring to always provide a new instance of the prototype bean (AbcService) every time it is needed.
+
+java
+Copy code
+@Scope("singleton")
+public class XYZService {
+
+    @Lookup
+    public AbcService getAbcService() {
+        // Spring will override this method to return a new instance of AbcService
+        return null;
+    }
+
+    public void someMethod() {
+        AbcService abcService = getAbcService(); // Always gets a new instance
+        abcService.updateTemperature();
+    }
+}
+2. Using ObjectProvider (Recommended)
+You can inject ObjectProvider<AbcService> instead of directly injecting the AbcService bean. The ObjectProvider can lazily retrieve a new instance of AbcService whenever needed.
+
+java
+Copy code
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class XYZService {
+
+    private final ObjectProvider<AbcService> abcServiceProvider;
+
+    @Autowired
+    public XYZService(ObjectProvider<AbcService> abcServiceProvider) {
+        this.abcServiceProvider = abcServiceProvider;
+    }
+
+    public void someMethod() {
+        AbcService abcService = abcServiceProvider.getObject(); // Gets a new instance each time
+        abcService.updateTemperature();
+    }
+}

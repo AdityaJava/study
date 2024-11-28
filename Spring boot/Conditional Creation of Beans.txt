@@ -1,0 +1,99 @@
+2. Using @Conditional Annotation
+You can use @Conditional to create beans based on more specific conditions. For this, you need to create a custom condition class that implements the Condition interface.
+
+Example:
+Create a condition class:
+java
+Copy code
+public class CustomCondition implements Condition {
+    @Override
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        String env = System.getProperty("env");
+        return "special".equals(env);  // Create bean only if env property is "special"
+    }
+}
+Use @Conditional in your configuration class:
+java
+Copy code
+@Configuration
+public class AppConfig {
+
+    @Bean
+    @Conditional(CustomCondition.class)
+    public SpecialBean specialBean() {
+        return new SpecialBean();
+    }
+}
+In this example, the SpecialBean will only be created if the system property env is set to special.
+
+3. Using @ConditionalOnProperty
+Spring Boot provides a convenient way to conditionally create beans based on properties in your application.properties or application.yml file. You can use @ConditionalOnProperty to create a bean only when a certain property is present or has a certain value.
+
+java
+Copy code
+@Configuration
+public class AppConfig {
+
+    @Bean
+    @ConditionalOnProperty(name = "feature.enabled", havingValue = "true")
+    public FeatureService featureService() {
+        return new FeatureService();
+    }
+}
+In this example, the FeatureService bean will be created only if the property feature.enabled is set to true in your application.properties:
+
+properties
+Copy code
+feature.enabled=true
+4. Using @ConditionalOnMissingBean
+You can use @ConditionalOnMissingBean to create a bean only if a specific bean is missing from the application context.
+
+java
+Copy code
+@Configuration
+public class AppConfig {
+
+    @Bean
+    @ConditionalOnMissingBean(DataSource.class)
+    public DataSource defaultDataSource() {
+        return new DataSource("default-url", "default-user", "default-password");
+    }
+}
+This bean will only be created if a DataSource bean is not already present in the context.
+
+5. Using Programmatic Logic in @Configuration Class
+You can also use programmatic logic to conditionally create beans inside your configuration class based on custom conditions.
+
+java
+Copy code
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public DataSource dataSource() {
+        if (shouldUseProdDataSource()) {
+            return new DataSource("prod-url", "prod-user", "prod-password");
+        } else {
+            return new DataSource("dev-url", "dev-user", "dev-password");
+        }
+    }
+
+    private boolean shouldUseProdDataSource() {
+        // Implement your custom condition here
+        return System.getProperty("env").equals("prod");
+    }
+}
+Conclusion
+Each of these methods allows you to conditionally create beans in Spring Boot. The choice of method depends on your use case:
+
+Profiles (@Profile) are useful for environment-based conditions.
+@Conditional is the most flexible, allowing for custom logic.
+@ConditionalOnProperty is great for property-based conditions.
+@ConditionalOnMissingBean is helpful when you want to define a fallback bean if a bean doesn't already exist.
+
+
+
+
+
+
+
