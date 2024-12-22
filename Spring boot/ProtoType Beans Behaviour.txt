@@ -28,8 +28,6 @@ However, this can be resolved by using one of the following approaches:
 1. Using @Lookup Annotation:
 You can use the @Lookup annotation in the singleton (XYZService) to tell Spring to always provide a new instance of the prototype bean (AbcService) every time it is needed.
 
-java
-Copy code
 @Scope("singleton")
 public class XYZService {
 
