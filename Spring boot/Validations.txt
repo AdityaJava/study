@@ -1,0 +1,218 @@
+JSR-303/JSR-380 Annotations for Input Validation in Spring Boot
+
+Steps to Implement Input Validation Using JSR-303/JSR-380 Annotations:
+
+1. Add Required Dependencies
+   Add the Spring Boot validation starter to your pom.xml:
+   
+   <dependency>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-validation</artifactId>
+   </dependency>
+   This dependency includes Hibernate Validator, which implements JSR-303/JSR-380.
+
+2. Define Validation Annotations on the Entity Class
+   Use validation annotations like @NotNull, @Size, @Email, etc. in your entity class.
+
+   Example:
+   
+   import javax.validation.constraints.Email;
+   import javax.validation.constraints.NotNull;
+   import javax.validation.constraints.Size;
+
+   public class Employee {
+
+       @NotNull(message = "Name cannot be null")
+       @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+       private String name;
+
+       @NotNull(message = "Email cannot be null")
+       @Email(message = "Email should be valid")
+       private String email;
+
+       @NotNull(message = "Age cannot be null")
+       private Integer age;
+
+       // Getters and setters
+   }
+
+   Explanation of Annotations:
+   - @NotNull: Ensures the field is not null.
+   - @Size: Validates the length of the string (min and max).
+   - @Email: Ensures the string is a valid email.
+
+3. Use @Valid or @Validated in Controller Method
+   In Spring Boot, use @Valid or @Validated to trigger validation in controller methods. @Valid validates the entity object.
+
+   Example:
+   
+   import org.springframework.http.ResponseEntity;
+   import org.springframework.validation.BindingResult;
+   import org.springframework.web.bind.annotation.*;
+
+   import javax.validation.Valid;
+
+   @RestController
+   @RequestMapping("/api/employees")
+   public class EmployeeController {
+
+       @PostMapping
+       public ResponseEntity<String> createEmployee(@Valid @RequestBody Employee employee, BindingResult result) {
+           if (result.hasErrors()) {
+               return ResponseEntity.badRequest().body("Validation failed: " + result.getAllErrors());
+           }
+
+           // Normally save the employee here
+           return ResponseEntity.ok("Employee created successfully");
+       }
+   }
+
+   Explanation:
+   - @Valid: Ensures that the employee object is validated using the annotations defined in the Employee class.
+   - BindingResult: Captures the validation result. If there are errors, they can be retrieved and handled.
+
+4. Handle Validation Errors and Send Custom Error Responses
+   You can handle validation errors globally by using @RestControllerAdvice.
+
+   Example:
+
+   import org.springframework.http.HttpStatus;
+   import org.springframework.http.ResponseEntity;
+   import org.springframework.web.bind.annotation.ExceptionHandler;
+   import org.springframework.web.bind.annotation.RestControllerAdvice;
+   import org.springframework.validation.FieldError;
+   import org.springframework.validation.ObjectError;
+
+   import java.util.HashMap;
+   import java.util.List;
+   import java.util.Map;
+
+   @RestControllerAdvice
+   public class GlobalExceptionHandler {
+
+       @ExceptionHandler(MethodArgumentNotValidException.class)
+       public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+           List<ObjectError> errors = ex.getBindingResult().getAllErrors();
+           Map<String, String> errorMap = new HashMap<>();
+           
+           for (ObjectError error : errors) {
+               String fieldName = ((FieldError) error).getField();
+               String errorMessage = error.getDefaultMessage();
+               errorMap.put(fieldName, errorMessage);
+           }
+
+           return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+       }
+   }
+
+   Explanation:
+   - MethodArgumentNotValidException: Thrown when validation fails on a method parameter annotated with @Valid.
+   - @RestControllerAdvice: Global exception handler to manage validation failures and return a custom error message.
+
+5. Complete Example:
+
+   Employee Entity (Employee.java):
+
+   import javax.validation.constraints.Email;
+   import javax.validation.constraints.NotNull;
+   import javax.validation.constraints.Size;
+
+   public class Employee {
+
+       @NotNull(message = "Name cannot be null")
+       @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+       private String name;
+
+       @NotNull(message = "Email cannot be null")
+       @Email(message = "Email should be valid")
+       private String email;
+
+       @NotNull(message = "Age cannot be null")
+       private Integer age;
+
+       // Getters and setters
+   }
+
+   Employee Controller (EmployeeController.java):
+
+   import org.springframework.http.ResponseEntity;
+   import org.springframework.validation.BindingResult;
+   import org.springframework.web.bind.annotation.*;
+
+   import javax.validation.Valid;
+
+   @RestController
+   @RequestMapping("/api/employees")
+   public class EmployeeController {
+
+       @PostMapping
+       public ResponseEntity<String> createEmployee(@Valid @RequestBody Employee employee, BindingResult result) {
+           if (result.hasErrors()) {
+               return ResponseEntity.badRequest().body("Validation failed: " + result.getAllErrors());
+           }
+
+           // Normally save the employee here
+           return ResponseEntity.ok("Employee created successfully");
+       }
+   }
+
+   Global Exception Handler (GlobalExceptionHandler.java):
+
+   import org.springframework.http.HttpStatus;
+   import org.springframework.http.ResponseEntity;
+   import org.springframework.web.bind.annotation.ExceptionHandler;
+   import org.springframework.web.bind.annotation.RestControllerAdvice;
+   import org.springframework.validation.FieldError;
+   import org.springframework.validation.ObjectError;
+
+   import java.util.HashMap;
+   import java.util.List;
+   import java.util.Map;
+
+   @RestControllerAdvice
+   public class GlobalExceptionHandler {
+
+       @ExceptionHandler(MethodArgumentNotValidException.class)
+       public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+           List<ObjectError> errors = ex.getBindingResult().getAllErrors();
+           Map<String, String> errorMap = new HashMap<>();
+           
+           for (ObjectError error : errors) {
+               String fieldName = ((FieldError) error).getField();
+               String errorMessage = error.getDefaultMessage();
+               errorMap.put(fieldName, errorMessage);
+           }
+
+           return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+       }
+   }
+
+6. Example API Calls:
+
+   Valid Request (POST /api/employees):
+   {
+     "name": "John Doe",
+     "email": "john.doe@example.com",
+     "age": 30
+   }
+   Response:
+   "Employee created successfully"
+
+   Invalid Request (POST /api/employees):
+   {
+     "name": "",
+     "email": "invalid-email",
+     "age": null
+   }
+   Response:
+   {
+     "name": "Name must be between 2 and 50 characters",
+     "email": "Email should be valid",
+     "age": "Age cannot be null"
+   }
+
+Summary:
+- JSR-303/JSR-380 annotations are used for input validation.
+- @Valid triggers the validation of the entity.
+- BindingResult captures and handles validation errors.
+- Global exception handling is used to provide meaningful error messages.
