@@ -23,7 +23,7 @@ A: Understand how autoconfiguration works using @Conditional* annotations and ho
 Q: How should I handle different environments?
 A: Use Spring Profiles and environment-specific configs (application-dev.yml, etc.). Activate them using JVM arguments or environment variables. You can also externalize configs using Spring Cloud Config, Vault, or Kubernetes Secrets.
 
-🧩 Spring Core & DI
+🧩 Spring Core & Dependency Injection
 Q: What are bean scopes and lifecycle hooks?
 A: Key scopes include:
 
