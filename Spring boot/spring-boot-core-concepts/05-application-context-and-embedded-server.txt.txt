@@ -1,0 +1,34 @@
+# ApplicationContext Initialization and Embedded Server Management
+
+## Startup Sequence:
+1. You call:
+   SpringApplication.run(MyApp.class, args);
+2. Creates:
+   - ApplicationContext (AnnotationConfigServletWebServerApplicationContext)
+   - Loads beans and applies autoconfig
+   - Reads application.yml
+3. If web app, Spring Boot sets up:
+   - Embedded server (Tomcat, Jetty, Undertow)
+   - Servlet context
+   - DispatcherServlet
+
+## Embedded Server:
+- Default is Tomcat
+- Can switch to Jetty or Undertow
+
+## Example for Jetty:
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-jetty</artifactId>
+</dependency>
+
+## Customize server:
+server:
+  port: 9090
+  servlet:
+    context-path: /api
+  tomcat:
+    max-threads: 200
+
+## Bonus: Viewing All Beans
+Use ApplicationContext.getBeanDefinitionNames() or /actuator/beans if actuator is enabled.

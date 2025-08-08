@@ -1,0 +1,33 @@
+# How Autoconfiguration Works in Spring Boot
+
+Autoconfiguration means Spring Boot automatically configures beans based on the classpath, environment, and your code.
+
+## Key Mechanism:
+- Uses @SpringBootApplication, which includes @EnableAutoConfiguration
+- Reads META-INF/spring.factories or META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+- Looks for classes listed under EnableAutoConfiguration key
+- Each class is annotated with @ConditionalOn... to configure only if certain conditions are met
+
+## Example:
+If spring-boot-starter-web is on the classpath:
+- Spring Boot sees it
+- Automatically configures:
+  - Tomcat
+  - DispatcherServlet
+  - Jackson (for JSON)
+  - WebMvcConfigurer
+  - And more...
+
+## Internals:
+@SpringBootApplication
+public class MyApp {
+  public static void main(String[] args) {
+    SpringApplication.run(MyApp.class, args);
+  }
+}
+
+@Configuration
+@ConditionalOnClass(DataSource.class)
+public class DataSourceAutoConfiguration {
+  // Spring sets up DataSource bean only if DataSource class is present
+}

@@ -1,0 +1,17 @@
+# How Starter Dependencies Auto-wire Beans
+
+Starters are just Maven/Gradle POMs with dependencies.
+
+## Example: spring-boot-starter-web
+Adds:
+- Spring MVC
+- Jackson
+- Tomcat
+- Validation
+
+Because these classes exist on the classpath, the related auto-configuration kicks in.
+
+## Autowiring:
+Once Spring creates beans via auto-configuration, you can autowire them:
+@Autowired
+private ObjectMapper objectMapper; // auto-configured by Jackson
