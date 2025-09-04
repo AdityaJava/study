@@ -1,0 +1,22 @@
+# Customize Spring Boot's Behavior using application.yml
+
+The application.yml (or .properties) file provides external configuration.
+
+## Examples:
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb
+    username: root
+    password: secret
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+
+## How It Works:
+Spring Boot binds these values to configuration classes using:
+@ConfigurationProperties(prefix = "spring.datasource")

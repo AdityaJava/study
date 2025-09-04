@@ -1,0 +1,23 @@
+# Override Defaults When Necessary
+
+You can override any auto-configured bean by defining your own bean of the same type.
+
+## Example:
+@Bean
+public ObjectMapper objectMapper() {
+  ObjectMapper mapper = new ObjectMapper();
+  mapper.enable(SerializationFeature.INDENT_OUTPUT);
+  return mapper;
+}
+
+Spring will use yours instead of the default.
+
+## Disable auto-config:
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+
+## Conditional loading:
+@Bean
+@ConditionalOnMissingBean
+public MyService myService() {
+  return new MyDefaultService();
+}

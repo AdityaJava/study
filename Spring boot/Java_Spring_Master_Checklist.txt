@@ -1,0 +1,171 @@
+
+🧠 Core Java & OOP Fundamentals
+Q: What Java features should I master?
+A: You should be proficient with Java 8–17+. This includes lambdas, Streams API, Optional, CompletableFuture for async tasks, var for type inference, and Records for concise data classes. Also, know how modules work (JPMS from Java 9) and be comfortable with pattern matching, sealed classes, and text blocks from later versions.
+
+Q: How important is understanding concurrency?
+A: It's essential. You need to master Thread, Runnable, ExecutorService, ForkJoinPool, thread-safety (synchronized, ReentrantLock), atomic operations (AtomicInteger, etc.), and concurrency utilities like CountDownLatch, Semaphore, and ConcurrentHashMap. Also understand race conditions, deadlocks, and safe publication.
+
+Q: What principles guide good object-oriented design?
+A: Follow SOLID principles, especially:
+
+S: Single Responsibility
+O: Open/Closed
+L: Liskov Substitution
+I: Interface Segregation
+D: Dependency Inversion
+Use design patterns (Factory, Builder, Strategy, Proxy), write clean, testable code, and ensure strong encapsulation.
+
+🔧 Spring Boot
+Q: What should I know about Spring Boot internals?
+A: Understand how autoconfiguration works using @Conditional* annotations and how starter dependencies auto-wire beans. Customize Spring Boot's behavior using application.yml and override defaults when necessary. Know how the application context is initialized and how embedded servers (Tomcat, Jetty, etc.) are managed.
+
+Q: How should I handle different environments?
+A: Use Spring Profiles and environment-specific configs (application-dev.yml, etc.). Activate them using JVM arguments or environment variables. You can also externalize configs using Spring Cloud Config, Vault, or Kubernetes Secrets.
+
+🧩 Spring Core & Dependency Injection
+Q: What are bean scopes and lifecycle hooks?
+A: Key scopes include:
+
+Singleton (default)
+Prototype
+Request
+Session
+Use @PostConstruct and @PreDestroy for lifecycle callbacks. Also, be aware of InitializingBean, DisposableBean, and BeanPostProcessor for deeper customization.
+
+Q: How do I manage conditional bean loading?
+A: Use annotations like @ConditionalOnMissingBean, @ConditionalOnProperty, and custom Condition classes to enable/disable beans based on config or classpath presence.
+
+🌐 Spring MVC / REST APIs
+Q: How should I build REST APIs?
+A: Follow REST principles:
+
+Proper HTTP methods (GET, POST, PUT, DELETE)
+Status codes
+Stateless interactions
+Use @Valid and validation annotations for input. Handle exceptions using @ControllerAdvice.
+
+Q: What advanced features should I know?
+A: Use:
+
+Interceptors
+Filters
+Content negotiation
+Custom HandlerMethodArgumentResolver
+Integrate with Swagger/OpenAPI and apply pagination and HATEOAS if needed.
+
+🧵 Spring AOP
+Q: When and how to use Spring AOP?
+A: For cross-cutting concerns like:
+
+Logging
+Security
+Caching
+Auditing
+Use @Aspect, @Around, @Before, @AfterReturning, etc. Understand proxy-based vs AspectJ-based weaving and self-invocation limitations.
+
+🧬 Spring Data JPA & Hibernate
+Q: What should I know about entity mapping?
+A: Master annotations like:
+
+@OneToMany, @ManyToOne, @ManyToMany, @Embedded
+Cascade types
+Lazy vs Eager fetching
+Understand orphan removal, bidirectional mapping, and entity lifecycle.
+
+Q: How to optimize queries and performance?
+A: Prevent N+1 issues using fetch joins or EntityGraph. Write custom JPQL/native queries when needed. Use second-level caching (e.g., with EhCache or Redis) and audit slow queries using Hibernate stats or p6spy.
+
+🔁 Transaction Management
+Q: How does @Transactional work?
+A: It manages transaction boundaries. Know:
+
+Propagation levels (REQUIRED, REQUIRES_NEW, etc.)
+Isolation levels (READ_COMMITTED, SERIALIZABLE, etc.)
+Only unchecked exceptions trigger rollback by default
+Also, remember self-invocation doesn't trigger proxies, so the annotation may not work inside the same class.
+
+☁️ Spring Cloud
+Q: What components are essential?
+A: Key components:
+
+Eureka (Service Discovery)
+Spring Cloud Config (centralized config)
+Gateway (routing/filtering)
+Feign (declarative REST client)
+Resilience4j (resilience patterns)
+Sleuth/Zipkin (tracing)
+
+Q: How to handle distributed systems?
+A: Use circuit breakers, retries, fallback mechanisms. Adopt event-driven patterns with Kafka/RabbitMQ. Add tracing headers across services for debugging.
+
+🧠 Redis Caching
+Q: How to use Redis with Spring?
+A: Use:
+
+@Cacheable, @CachePut, @CacheEvict
+Custom key generators
+RedisTemplate for advanced operations
+Handle TTLs and invalidation properly. Use serialization strategies like JSON or StringRedisSerializer.
+
+Q: What Redis features are critical?
+A: Know:
+
+Redis data types (List, Hash, Set, Sorted Set)
+Distributed locks (e.g., via Redisson)
+Pub/Sub for invalidation
+Strategies to avoid cache stampede/avalanche/penetration
+
+🏗️ Database & Performance
+Q: How to optimize DB interactions?
+A: Use HikariCP. Optimize queries with proper indexing, batch operations, and query plans. Avoid unnecessary joins. Use connection pool monitoring and tune timeouts.
+
+🔐 Security
+Q: How to secure applications?
+A: Use Spring Security with:
+
+JWT for stateless APIs
+Role-based access control
+OAuth2/OIDC (Keycloak, Okta)
+CSRF protection, CORS configuration
+Avoid exposing sensitive endpoints.
+
+🧪 Testing
+Q: What testing tools should I use?
+A: Use:
+
+JUnit 5
+Mockito
+@SpringBootTest, @DataJpaTest, @WebMvcTest
+TestContainers for DB, Redis
+RestAssured/Postman for API testing
+
+🚀 DevOps Awareness
+Q: What should I know about deployments?
+A: Containerize using Docker. Use Jib for fast image builds. Deploy with Helm charts and Kubernetes. Configure readiness/liveness probes. Monitor with Prometheus/Grafana. Log aggregation using ELK or Loki.
+
+📈 Observability
+Q: How to make apps observable?
+A: Use:
+
+Spring Boot Actuator
+Sleuth or OpenTelemetry for tracing
+Micrometer for metrics
+Prometheus/Grafana for visualization
+Correlate logs with trace IDs for distributed requests
+
+🏛️ Architecture & Design
+Q: What architecture patterns should I follow?
+A: Apply:
+
+Domain Driven Design (Entities, Aggregates, Value Objects)
+Event-driven architecture
+Saga pattern for distributed transactions
+Microservices vs Monolith tradeoffs
+
+Q: How to manage service boundaries?
+A: Use database-per-service when possible. Prevent tight coupling. Implement anti-corruption layers. Apply appropriate caching strategies (read-through, write-through, write-behind).
+
+💬 Soft Skills & Code Practices
+Q: What soft skills are essential?
+A: Write design documents, perform code reviews, mentor juniors, break down complex problems, communicate clearly with stakeholders, and contribute to planning and delivery estimations.
