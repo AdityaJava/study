@@ -1,13 +1,31 @@
-public class StringCreationDemo {
-    public static void main(String[] args) {
-        String s2 = new String("hello"); // "hello" added to SCP + one heap object
-    }
-}
-Memory Allocation After Execution:
+String Creation in Java
+-----------------------
 
-SCP:
+Case 1: String s = new String("ABC");
+------------------------------------
+- "ABC" is placed in String Constant Pool (SCP) if not already present.
+- new String("ABC") creates a new String object in heap.
+- Reference 's' points to the heap object.
+=> Result: 1 object in SCP + 1 object in Heap.
 
-Contains one instance of "hello".
-Heap:
+Case 2: String s = "ABC";
+-------------------------
+- JVM checks SCP for "ABC".
+- If found, reuse. If not, create it once in SCP.
+- Reference 's' points directly to the SCP object.
+=> Result: Only 1 object in SCP (no new heap object).
 
-Contains one separate String object with the value "hello".
+Key Points:
+-----------
+- SCP ensures memory efficiency (reuses literals).
+- new String() forces creation of a new heap object even if literal exists.
+- Reference variable itself lives on the stack.
+- Heap object (if created) internally refers to SCP literal's value.
+- Use literals ("ABC") when possible for better performance.
+
+Interview Tip:
+--------------
+Q: Difference between new String("ABC") and "ABC"?
+A:
+- new String("ABC"): always creates a new object in heap + ensures literal in SCP.
+- "ABC": only one object in SCP, reused across references.
