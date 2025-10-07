@@ -1,10 +1,10 @@
 Stages of the Bean Lifecycle in Spring Boot:
-Instantiation: The Spring container creates the bean by calling the constructor.
-Populate properties: Spring injects dependencies into the bean (via autowiring, if necessary).
-Set Bean Name: If the bean implements BeanNameAware, the setBeanName method is called.
-Set Bean Factory: If the bean implements BeanFactoryAware, the setBeanFactory method is called.
-Pre-Initialization (optional): Spring can apply custom initialization logic if you define InitializingBean or use @PostConstruct.
-Post-Initialization (optional): If you have any custom post-processors, they will be called here.
+1. Instantiation: The Spring container creates the bean by calling the constructor.
+2. Populate properties: Spring injects dependencies into the bean (via autowiring, if necessary).
+3. Set Bean Name: If the bean implements BeanNameAware, the setBeanName method is called.
+4. Set Bean Factory: If the bean implements BeanFactoryAware, the setBeanFactory method is called.
+5. Pre-Initialization (optional): Spring can apply custom initialization logic if you define InitializingBean or use @PostConstruct.
+6. Post-Initialization (optional): If you have any custom post-processors, they will be called here.
 Ready for Use: The bean is now ready to be used by the application.
 Destruction: When the application context is closed or the bean is no longer needed, Spring will call the @PreDestroy or destroy method (if defined).
 Example Code for Demonstrating Bean Lifecycle:

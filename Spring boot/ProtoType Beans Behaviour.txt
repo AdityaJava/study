@@ -5,7 +5,8 @@ updateTemperature(){
 	//like update temp 20degree etc
 }
 }
-   
+
+@Component
 XYZService{
 	@Autowired
 	AbcService abcService
@@ -36,6 +37,7 @@ public class XYZService {
         // Spring will override this method to return a new instance of AbcService
         return null;
     }
+
 
     public void someMethod() {
         AbcService abcService = getAbcService(); // Always gets a new instance

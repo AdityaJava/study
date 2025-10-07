@@ -15,3 +15,15 @@ HashMap
 ├── Bucket 1 -> [key3 -> value3]
 └── Bucket 2 -> [key4 -> value4]
 The order of the elements in the HashMap is not preserved.
+
+
+equals -> true
+hashcode -> 1
+
+e1 -> 101
+
+e2 -> 102
+e3 -> 109
+
+
+e1 -> 109
