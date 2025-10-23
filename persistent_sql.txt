@@ -1,0 +1,34 @@
+employees(id, name, department_id)
+departments(id, name)
+projects(id, name, department_id)
+project_assignments(employee_id, project_id, role)
+timesheets(employee_id, project_id, date, hours_worked)
+------------------------------------------------------------
+Find employees who worked more than 50 hours on projects outside their department, grouped by project and department
+
+
+
+Find employees who worked more than 50 hours 
+
+select * from employees e
+join timesheets t on e.id= t.employee_id
+where t.hours_worked > 50;
+
+Outside there dept
+
+select * from employees e
+join timesheets t on e.id= t.employee_id
+join departments d on d.id=e.department_id
+where t.hours_worked > 50
+and e.department_id not in (select id from depratments where id in )
+;
+
+
+-----------------------------------------------------------------------
+select * from projects p
+join project_assignments pa on p.id= pa.project_id
+join employee e on e.id= pa.employee_id
+join timesheets t on e.id= t.employee_id
+where t.hours_worked > 50
+and p.department_id not in (select department_id from employee where id=e.id)
+
