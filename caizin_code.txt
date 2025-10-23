@@ -1,0 +1,44 @@
+given an array of strings directories
+ 
+return an array of directories by removing all the subfolders from the list
+ 
+input ["/a", "/a/b"]
+ 
+output ["/a"]
+ 
+ 
+Input ["/a","/a/b","/c/d","/c/d/e","/c/f"]
+Output ["/a","/c/d","/c/f"]
+ 
+ 
+Input  ["/a/b/c","/a/b/ca","/a/b/d"]
+Output ["/a/b/c","/a/b/ca","/a/b/d"]
+
+-----------------------------------------------
+Set<String> root = new hashSet();
+
+
+   /a     /c/d   /c/f
+/b      /c/d/e
+
+organizing and element
+--------------------------------------------------
+
+Input ["/a/b","/c/d","/c/d/e","/c/f", "/a", "/b", "/c"]
+Output ["/a","/c/d","/c/f"]
+
+sorted input ["/a","/a/b", "/b", "/c", , "/c/d", "/c/d/e" , "/c/f", ]
+
+
+sorted input ["/a","/a/b", "/a/b/c", "/b", "/c", , "/c/d", "/c/d/e" , "/c/f" ]
+
+Substring approach
+
+checks -> length (initStringLength < currentStringLength) && initString.subString(currentString) && !lastRoot.subString(currentString)
+
+1 /a  /b
+
+3. /a/b/c  -> /a/b 
+
+4. /b -> 
+
