@@ -1,0 +1,54 @@
+public class EmailService {
+ 
+    
+    private final FeatureFlagService flagService;
+     	
+	private EncryptInt en;
+	
+    
+    public EmailService(FeatureFlagService flagService, En..) {
+        this.flagService = flagService;
+    }
+ 
+    public void sendEmail(String tenantId, String recipient, String message) {
+        Map<String, Boolean> flags = flagService.getFlagsForTenant(tenantId);
+ 
+        if (Boolean.TRUE.equals(flags.get("EMAIL_ENCRYPTION"))) {
+            message = encryptMessage(message);
+        }
+ 
+        if (Boolean.TRUE.equals(flags.get("EMAIL_SIGNATURE"))) {
+            message += "\n\n--\nBest Regards,\n" + tenantId + " Support Team";
+        }
+ 
+        if (Boolean.TRUE.equals(flags.get("EMAIL_OPEN_TRACKING"))) {
+            message = "<tracking-pixel>" + message;
+        }
+ 
+        if (Boolean.TRUE.equals(flags.get("EMAIL_PROMOTIONS"))) {
+            message += "\n\n*** Special Promotion ***";
+        }
+ 	
+        System.out.println("Sending email to: " + recipient);
+        System.out.println("Message: " + message);
+    }
+ 
+    private String encryptMessage(String message) {
+        return "[ENCRYPTED] " + message;
+    }
+}
+
+---------------------------
+solid
+
+interface EncryptInt{
+	String algorithm;
+	String encrypt();
+}
+
+interface Signature
+
+
+
+4 int 4 Classes
+

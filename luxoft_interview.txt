@@ -1,0 +1,89 @@
+import java.util.*;
+/*
+ Compute Average Salary by Department
+*/
+
+public class Main {
+    
+    //1.2 + 1.3 
+    public static class Worker {
+        String name;
+        int departmentId;
+        double salary;
+
+    public Worker(String name, int departmentId, double salary) {
+        this.name = name;
+        this.departmentId = departmentId;
+        this.salary = salary;
+    }
+
+    public int getDepartmentId() {
+        return departmentId;
+    }
+    
+    public double getSalary() {
+        return salary;
+    }
+    
+    public static Worker of(String name, int depId, double salary) {
+        return new Worker(name,depId,salary);
+    }
+}
+
+public static class Calculator {
+    public Map<Integer, Double> calculateAverageByDepartments(List<Worker> workers) {
+        // Compute Average Salary by Department
+        // key departId and value as Average Salary
+        //Map<Integer, List<workers>> map =workers.Stream().collect(Collectors.groupingBy(Worker::getDepartmentId), Collectors.joining(Worker::getSalary));
+        Map<Integer, Double> deptIdToSum = new HashMap<>();
+        Map<Integer, Integer> deptIdToCount = new HashMap<>();
+        for(int i=0; i<Workers.size(); i++) {
+            int key = Worker.get(i).getKey();
+            if(deptIdToSum.containsKey(key)){
+                int sum = deptIdToSum.get(key) + Worker.getSalary();
+                deptIdToSum.put(key, sum);
+                deptIdToCount.put(key, deptIdToCount.get(key)+1);
+            }
+            else {
+                deptIdToSum.put(key, Worker.getSalary());
+                deptIdToCount.put(key, 1);
+            }
+        }
+        
+        Map<Integer, Double> deptIdToAverage = new HashMap<>();
+        
+        for(Map<Integer, Double>.Entry entry : deptIdToSum){
+            int sum = entry.getValue();
+            int count = deptIdToCount.get(entry.getKey());
+            deptIdToAverage.put(entry.key, sum/count);
+        }
+    
+        return deptIdToAverage;
+    }
+}
+    /**
+     * 1 -> 210
+     * 3 -> 141
+     * 
+     * 1- > 2
+     * 2->1
+     * 3 -> 2
+     * 
+     */
+    
+    public static void main(String[] args) {
+        List<Worker> workers = List.of(
+            Worker.of("Name1", 1, 100),
+            Worker.of("Name2", 1, 110),
+            Worker.of("Name3", 2, 100),
+            Worker.of("Name4", 3, 115.5),
+            Worker.of("Name5", 3, 125.5)
+            );
+        Calculator calcService = new Calculator();
+        Map<Integer, Double> res = calcService.calculateAverageByDepartments(workers);
+        
+        System.out.println(res.get(1));
+        System.out.println(res.get(2));
+        System.out.println(res.get(3));
+    }
+}
