@@ -1,4 +1,4 @@
-package stream;
+package mystream;
 
 
 public class Employee {
