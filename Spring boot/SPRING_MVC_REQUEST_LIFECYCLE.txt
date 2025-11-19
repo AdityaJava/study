@@ -1,0 +1,128 @@
+==================== SPRING MVC REQUEST LIFECYCLE (FROM TOMCAT) ====================
+
+1. Tomcat Receives the HTTP Request
+------------------------------------
+• Browser/mobile client sends HTTP request.
+• Tomcat creates:
+    - HttpServletRequest
+    - HttpServletResponse
+• These objects represent the raw servlet request & response.
+
+Flow:
+Client → Tomcat → HttpServletRequest + HttpServletResponse
+
+-------------------------------------------------------------------------------
+
+2. Spring's Filter Chain Executes (Before Controller)
+------------------------------------------------------
+• Spring Security filters run here (e.g., JWT filter).
+• Common tasks:
+    - Validate JWT
+    - Set Authentication in SecurityContextHolder
+    - Logging/CORS
+    - Modify request attributes
+
+Flow:
+HttpServletRequest → Filter1 → Filter2 → ... → FilterN → DispatcherServlet
+
+-------------------------------------------------------------------------------
+
+3. DispatcherServlet Takes Control
+-----------------------------------
+• This is the main front-controller of Spring MVC.
+• It decides WHICH controller method should handle the request.
+
+Tasks:
+- Find handler using HandlerMapping
+- Invoke HandlerAdapter for that handler
+- Prepare request data for controller parameters
+
+Flow:
+DispatcherServlet → HandlerMapping → HandlerAdapter
+
+-------------------------------------------------------------------------------
+
+4. Spring Resolves Method Arguments
+------------------------------------
+• Spring checks your controller parameter annotations:
+    @RequestBody
+    @RequestParam
+    @PathVariable
+    @RequestHeader
+    @ModelAttribute
+    HttpServletRequest
+
+• For @RequestBody specifically → Spring must READ the body.
+
+Flow:
+HandlerAdapter → ArgumentResolvers → Parameter binding
+
+-------------------------------------------------------------------------------
+
+5. HttpMessageConverter Converts Body → Java Object
+-----------------------------------------------------
+• Spring selects a converter based on Content-Type:
+    application/json → MappingJackson2HttpMessageConverter
+    text/plain       → StringHttpMessageConverter
+    form-data        → FormHttpMessageConverter
+
+• For JSON:
+    - Reads InputStream from HttpServletRequest
+    - Calls Jackson ObjectMapper
+    - Converts JSON → Java POJO
+
+Flow:
+HTTP Body → HttpMessageConverter → Jackson → Java Object (@RequestBody)
+
+-------------------------------------------------------------------------------
+
+6. Controller Method Executes
+------------------------------
+Example:
+@PostMapping("/save")
+public Response save(@RequestBody UserRequest req) { ... }
+
+• Now Spring passes the converted Java object to your controller.
+• Controller returns a Java object (not JSON).
+
+Flow:
+Java Request Object → Controller → Java Response Object
+
+-------------------------------------------------------------------------------
+
+7. HttpMessageConverter Converts Java → JSON (Response)
+--------------------------------------------------------
+• For response bodies, Spring again uses HttpMessageConverter.
+
+• Jackson converts:
+    Java Object → JSON String
+
+• JSON is written into HttpServletResponse output stream.
+
+Flow:
+Java Response Object → Converter → JSON → HttpServletResponse
+
+-------------------------------------------------------------------------------
+
+8. DispatcherServlet Sends Final Response
+-----------------------------------------
+• DispatcherServlet returns the fully-formed JSON response.
+• Tomcat sends it to the client.
+
+Flow:
+JSON Response → Tomcat → Client
+
+-------------------------------------------------------------------------------
+
+==================== SUMMARY TABLE ====================
+Tomcat: Creates raw HttpServletRequest
+Filters: JWT, Security, CORS, Logging
+DispatcherServlet: Main request router
+HandlerMapping: Finds controller method
+ArgumentResolver: Finds how to fill parameters
+HttpMessageConverter: JSON ↔ Java conversion
+Controller: Your business logic
+HttpMessageConverter: Converts response to JSON
+Tomcat: Sends final response
+
+==================== END SUMMARY ====================
